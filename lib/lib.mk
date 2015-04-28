@@ -3,6 +3,7 @@ ccan_EMBED := \
 	contrib/ccan/isaac/isaac.c
 
 libkresolve_SOURCES := \
+	$(libknot_EMBED)       \
 	$(ccan_EMBED)          \
 	lib/generic/map.c      \
 	lib/layer/iterate.c    \
@@ -31,7 +32,7 @@ libkresolve_HEADERS := \
 # Dependencies
 libkresolve_DEPEND := 
 libkresolve_LIBS := $(libknot_LIBS)
-libkresolve_TARGET := -Wl,-rpath,lib -Llib -lkresolve
+libkresolve_TARGET := -Wl,-rpath,lib -Llib -lkresolve -ldl
 
 # Make library
 $(eval $(call make_lib,libkresolve,lib))

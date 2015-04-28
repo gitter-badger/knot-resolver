@@ -27,6 +27,8 @@ $(eval $(call find_bin,sphinx-build))
 $(eval $(call find_bin,gccgo))
 $(eval $(call find_python))
 
+CFLAGS += $(libknot_CFLAGS) $(libuv_CFLAGS) $(cmocka_CFLAGS) $(python_CFLAGS) $(lua_CFLAGS)
+
 # Work around luajit on OS X
 ifeq ($(PLATFORM), Darwin)
 ifneq (,$(findstring luajit, $(lua_LIBS)))
@@ -34,7 +36,11 @@ ifneq (,$(findstring luajit, $(lua_LIBS)))
 endif
 endif
 
-CFLAGS += $(libknot_CFLAGS) $(libuv_CFLAGS) $(cmocka_CFLAGS) $(python_CFLAGS) $(lua_CFLAGS)
+# Embedded alternatives
+ifneq ($(HAS_libknot), yes)
+include contrib/libknot/libknot.mk
+clean: libknot-clean
+endif
 
 # Sub-targets
 include help.mk
